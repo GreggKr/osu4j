@@ -3,7 +3,7 @@ package com.oopsjpeg.osu4j;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.neovisionaries.i18n.CountryCode;
-import com.oopsjpeg.osu4j.abstractbackend.LazilyLoaded;
+import com.oopsjpeg.osu4j.abstractbackend.Lazy;
 import com.oopsjpeg.osu4j.backend.EndpointBeatmapSet;
 import com.oopsjpeg.osu4j.backend.EndpointBeatmaps;
 import com.oopsjpeg.osu4j.backend.EndpointUserBests;
@@ -40,9 +40,9 @@ public class OsuUser extends OsuElement {
     private GameMode mode;
 
     private int topScoresSize = -1;
-    private LazilyLoaded<List<OsuScore>> topScores;
+    private Lazy<List<OsuScore>> topScores;
     private int recentScoresSize = -1;
-    private LazilyLoaded<List<OsuScore>> recentScores;
+    private Lazy<List<OsuScore>> recentScores;
 
     public OsuUser(Osu api, JsonObject obj, GameMode mode) {
         super(api);
@@ -101,7 +101,7 @@ public class OsuUser extends OsuElement {
         this.mode = other.mode;
     }
 
-    public LazilyLoaded<List<OsuScore>> getTopScores(int limit) {
+    public Lazy<List<OsuScore>> getTopScores(int limit) {
         if (limit <= topScoresSize) {
             return topScores.map(list -> list.subList(0, limit));
         }
@@ -110,7 +110,7 @@ public class OsuUser extends OsuElement {
                 .getAsQuery(new EndpointUserBests.ArgumentsBuilder(userID).setMode(mode).setLimit(limit).build()).asLazilyLoaded();
     }
 
-    public LazilyLoaded<List<OsuScore>> withRecentScores(int limit) {
+    public Lazy<List<OsuScore>> withRecentScores(int limit) {
         if (limit <= recentScoresSize) {
             return recentScores.map(list -> list.subList(0, limit));
         }
@@ -228,9 +228,9 @@ public class OsuUser extends OsuElement {
     private class Event extends OsuElement {
         private String displayHTML;
         private int beatmapID;
-        private LazilyLoaded<OsuBeatmap> beatmap;
+        private Lazy<OsuBeatmap> beatmap;
         private int beatmapSetID;
-        private LazilyLoaded<OsuBeatmapSet> beatmapSet;
+        private Lazy<OsuBeatmapSet> beatmapSet;
 
         public Event(JsonObject obj) {
             super(OsuUser.this.getAPI());
@@ -277,7 +277,7 @@ public class OsuUser extends OsuElement {
             return beatmapID;
         }
 
-        public LazilyLoaded<OsuBeatmap> getBeatmap() {
+        public Lazy<OsuBeatmap> getBeatmap() {
             return beatmap;
         }
 
@@ -285,7 +285,7 @@ public class OsuUser extends OsuElement {
             return beatmapSetID;
         }
 
-        public LazilyLoaded<OsuBeatmapSet> getBeatmapSet() {
+        public Lazy<OsuBeatmapSet> getBeatmapSet() {
             return beatmapSet;
         }
     }
