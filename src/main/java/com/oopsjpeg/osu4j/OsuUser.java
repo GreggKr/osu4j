@@ -1,5 +1,6 @@
 package com.oopsjpeg.osu4j;
 
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.neovisionaries.i18n.CountryCode;
 import com.oopsjpeg.osu4j.abstractbackend.LazilyLoaded;
@@ -249,7 +250,7 @@ public class OsuUser extends OsuElement {
                 beatmapSetID = obj.get("beatmapset_id").getAsInt();
             }
 
-            if (obj.has("beatmapset_id")) {
+            if (obj.has("beatmapset_id") && !obj.get("beatmapset_id").isJsonNull()) {
                 beatmapSet = getAPI().beatmapSets.getAsQuery(new EndpointBeatmapSet.Arguments(obj.get("beatmapset_id").getAsInt()))
                         .asLazilyLoaded();
             }
