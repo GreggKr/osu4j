@@ -21,11 +21,14 @@ public class OsuMatch extends OsuElement {
     public OsuMatch(Osu api, JsonObject obj) {
         // todo implement end time?
         super(api);
+//        System.out.println(obj.getAsString());
+        System.out.println(obj.toString());
+//        System.out.println(obj.get("match").toString());
         JsonObject match = obj.getAsJsonObject("match");
         if (match.has("match_id")) matchID = match.get("match_id").getAsInt();
         if (match.has("name")) name = match.get("name").getAsString();
         if (match.has("start_time")) startTime = Utility.parseDate(match.get("start_time").getAsString());
-        if (match.has("end_time")) endTime = Utility.parseDate(match.get("end_time").getAsString());
+        if (match.has("end_time") && !match.get("end_time").isJsonNull()) endTime = Utility.parseDate(match.get("end_time").getAsString());
         this.games = new ArrayList<>();
         if (obj.has("games")) obj.getAsJsonArray("games").forEach(e -> this.games.add(new Game(e.getAsJsonObject())));
     }
