@@ -21,9 +21,6 @@ public class OsuMatch extends OsuElement {
     public OsuMatch(Osu api, JsonObject obj) {
         // todo implement end time?
         super(api);
-//        System.out.println(obj.getAsString());
-        System.out.println(obj.toString());
-//        System.out.println(obj.get("match").toString());
         JsonObject match = obj.getAsJsonObject("match");
         if (match.has("match_id")) matchID = match.get("match_id").getAsInt();
         if (match.has("name")) name = match.get("name").getAsString();
